@@ -72,7 +72,7 @@ Para mais detalhes acesse os arquivos e acesse o video
        python3 replicando_audios.py --wakewords_dir dados/wakewords/ --copia_destino/1/ --numero_copias 300
        `` `
     3. certifique-se de coletar outros dados de fala, como voz comum. dividir os dados em pedaços de n segundos com `processando_audios.py`.
-    4. 
+  
     5. Coloque os dados em dois diretórios separados chamados `0` e` 1`. `0` para não wakeword,` 1` para wakeword. use `criando_json_para_treino.py` para criar json de treino e teste neste formato ...
         `` `
         // fazer com que cada amostra esteja em uma linha separada
