@@ -7,10 +7,15 @@ ambiente_virtual.yml
 
 Esse algoritimo foi implementado e exectudado com as seguintes configurações:
 Conda
+
 Python 3.9.7
+
 Pytorch 1.7.1
+
 CUDA 11.1
+
 GeForce RTX 3090
+
 Ubuntu 18.04
 
 ### Crie um ambiente vitual chamado wakeword e ative:
