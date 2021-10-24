@@ -26,51 +26,63 @@ Ubuntu 18.04
 [Youtube Video WakeWord]( https://youtu.be/4GokN_-4yh4)
 
 ### scripts
-For more details make sure to visit these files to look at script arguments and description
+Descrição de como as pastas de scripts são organizadas:'
 
-`wakeword/neuralnet/train.py` is used to train the model
+Siga instruções dentro de cada script para executar ou acessar o vídeo.
 
-`wakeword/neuralnet/optimize_graph.py` is used to create a production ready graph that can be used in `engine.py`
+`AssistenteDeVoz/scripts/coletando_audios.py` usado para coletar audios
 
-`wakeword/engine.py` is used to demo the wakeword model
+`AssistenteDeVoz/scripts/criando_json_para_treino.py ` usado para criar arquivo json de teste e treino da nossa rede neural
 
-`wakeword/scripts/collect_wakeword_audio.py` - used to collect wakeword and environment data
+`AssistenteDeVoz/scripts/processando_audios.py` usado para processar audio criados para treino
 
-`wakeword/scripts/split_audio_into_chunks.py` - used to split audio into n second chunks
+`AssistenteDeVoz/scripts/processar_commonvoice.py ` - usado para processar audio obtidos de common voice 
 
-`wakeword/scripts/split_commonvoice.py` - if you download the common voice dataset, use this script to split it into n second chunks
+`AssistenteDeVoz/scripts/replicando_audios.py ` - usado para replicar audio que criamos de wakeword
 
-`wakeword/scripts/create_wakeword_jsons.py` - used to create the wakeword json for training
+### rede_neural
+Siga instruções dentro de cada script para executar ou acessar o vídeo.
 
-### Steps to train and demo your wakeword model
+`AssistenteDeVoz/rede_neural/treinar.py` usado para treinar nossa rede neural
 
-For more details make sure to visit these files to look at script arguments and description
+`AssistenteDeVoz/rede_neural/executar.py  ` usado para testar nosso algoritimo de wakeword
 
-1. collect data
-    1. environment and wakeword data can be collected using `python collect_wakeword_audio.py`
-       ```
-       cd VoiceAssistant/wakeword/scripts
-       mkdir data
-       cd data
+`AssistenteDeVoz/rede_neural/modelo.py` model esta salvo aqui
+
+`AssistenteDeVoz/rede_neural/modelo_optimizado.py ` - usado para criar modelo optimizado a partir de modelo treinado
+
+`AssistenteDeVoz/rede_neural/dataset.py` usado para distribuir arquivos para nossa rede neural durante treinamento e teste
+
+`AssistenteDeVoz/rede_neural/sonopy.py ` - necessario para processamento de audios
+
+### Passos para treinar sua rede neural
+Para mais detalhes acesse os arquivos e acesse o video
+
+1. colete dados
+    1. dados de ambiente e wakeword podem ser coletados usando `AssistenteDeVoz/scripts/coletando_audios.py`
+       `` `
+       cd AssistenteDeVoz/scripts/
+       dados mkdir
+       cd dados
        mkdir 0 1 wakewords
-       python collect_wakeword_audio.py --sample_rate 8000 --seconds 2 --interactive --interactive_save_path ./data/wakewords
-       ```
-    2. to avoid the imbalanced dataset problem, we can duplicate the wakeword clips with 
-       ```
-       python replicate_audios.py --wakewords_dir data/wakewords/ --copy_destination data/1/ --copy_number 100
-       ```
-    3. be sure to collect other speech data like common voice. split the data into n seconds chunk with `split_audio_into_chunks.py`.
-    4. put data into two seperate directory named `0` and `1`. `0` for non wakeword, `1` for wakeword. use `create_wakeword_jsons.py` to create train and test json
-    5. create a train and test json in this format...
-        ```
-        // make each sample is on a seperate line
-        {"key": "/path/to/audio/sample.wav, "label": 0}
-        {"key": "/path/to/audio/sample.wav, "label": 1}
-        ```
+       python3 coletando_audios.py --frequencia 8000 --segundos 2 --interativo --interativo_salvar ./dados/wakewords
+       `` `
+    2. para evitar o problema do conjunto de dados desequilibrado, podemos duplicar os clipes de wakeword com
+       `` `
+       python3 replicando_audios.py --wakewords_dir dados/wakewords/ --copia_destino/1/ --numero_copias 300
+       `` `
+    3. certifique-se de coletar outros dados de fala, como voz comum. dividir os dados em pedaços de n segundos com `processando_audios.py`.
+    4. 
+    5. Coloque os dados em dois diretórios separados chamados `0` e` 1`. `0` para não wakeword,` 1` para wakeword. use `criando_json_para_treino.py` para criar json de treino e teste neste formato ...
+        `` `
+        // fazer com que cada amostra esteja em uma linha separada
+        {"key": "/path/to/audio/exemplo0.wav," label ": 0}
+        {"key": "/path/to/audio/exemplo1.wav," label ": 1}
+        `` `
 
-2. train model
-    1. use `train.py` to train model
-    2. after model training us `optimize_graph.py` to create an optimized pytorch model
+2. treino o algoritimo de rede neural
+    1. usar `treinar.py` para treinar o algoritimo
+    2. após o treinamento do modelo, `modelo_optimizado.py` para criar um modelo pytorch otimizado
 
-3. test
-    1. test using the `engine.py` script
+3. testando e executando modelo.
+    1. teste usando o script `executar.py`
